@@ -14,16 +14,19 @@ function Cadastrar(){
      let nome = document.querySelector("#nome");
      let cpf = document.querySelector("#cpf");
      let data = document.querySelector("#data");
+     if(localStorage.getItem("listaClientes") !=null){
+        lista_clientes = JSON.parse(localStorage.getItem("listaClientes"))
+     }
     if(nome.value!='' && cpf.value !='' && data.value!=''){
          cliente = new Cliente(nome.value,cpf.value,data.value);
         if(posicao == ''){
             lista_clientes.push(cliente);
         }
         else{
-            lista_clientes[posicao] = cliente;
+            lista_clientes[posicao] = cliente; 
             posicao = '';
         }
-        tabela_dados.innerHTML = Listar(lista_clientes);
+        localStorage.setItem("listaClientes",JSON.stringify(lista_clientes));
         nome.value = '';
         cpf.value = '';
         data.value = '';
@@ -31,6 +34,7 @@ function Cadastrar(){
     else{
         alert('Preencha os campos!');
     }
+    carregar();
 }
 function Listar(lista){
     var auxHtml = '';
@@ -49,6 +53,8 @@ function Listar(lista){
 }
 tabela_dados.addEventListener('click',Acoes)
 function Acoes(event){
+    if(localStorage.getItem("listaClientes") !=null){
+        lista_clientes = JSON.parse(localStorage.getItem("listaClientes"))
     posicao = event.target.rel;
     if(event.target.classList.contains('btnAlterar')){
         document.getElementById("nome").value = lista_clientes[posicao].nome;
@@ -59,8 +65,12 @@ function Acoes(event){
         let confirmar = window.confirm("Deseja mesmo excluir?");
         if(confirmar == true){
             lista_clientes.splice(posicao,1);
-        tabela_dados.innerHTML = Listar(lista_clientes);
+            localStorage.setItem("listaClientes",JSON.stringify(lista_clientes));
+            carregar();
         }
     }
 }
-
+}
+function carregar(){
+    tabela_dados.innerHTML = Listar(JSON.parse(localStorage.getItem("listaClientes")));
+}

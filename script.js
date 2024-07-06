@@ -55,6 +55,7 @@ tabela_dados.addEventListener('click',Acoes)
 function Acoes(event){
     if(localStorage.getItem("listaClientes") !=null){
         lista_clientes = JSON.parse(localStorage.getItem("listaClientes"))
+     }
     posicao = event.target.rel;
     if(event.target.classList.contains('btnAlterar')){
         document.getElementById("nome").value = lista_clientes[posicao].nome;
@@ -69,7 +70,7 @@ function Acoes(event){
             carregar();
         }
     }
-}
+    
 }
 function carregar(){
     tabela_dados.innerHTML = Listar(JSON.parse(localStorage.getItem("listaClientes")));

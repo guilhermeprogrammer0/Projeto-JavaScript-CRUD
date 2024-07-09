@@ -60,6 +60,9 @@ main {
 .form-control {
     width: 65%;
 }
+.campoVazio{
+    border:solid 1px red;
+}
 
 .radios-s {
     display: flex;
